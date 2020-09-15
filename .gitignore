@@ -1,3 +1,9 @@
+# Aplications
+cat/cat
+echo/echo
+false/false
+true/true
+
 # Prerequisites
 *.d
 
