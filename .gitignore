@@ -3,6 +3,7 @@ cat/cat
 echo/echo
 false/false
 true/true
+seq/seq
 
 # Prerequisites
 *.d
