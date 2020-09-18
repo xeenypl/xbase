@@ -4,6 +4,7 @@ echo/echo
 false/false
 true/true
 seq/seq
+tee/tee
 
 # Prerequisites
 *.d
