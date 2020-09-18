@@ -1,10 +1,6 @@
 # Aplications
-cat/cat
-echo/echo
-false/false
-true/true
-seq/seq
-tee/tee
+bin
+bin/*
 
 # Prerequisites
 *.d
