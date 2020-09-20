@@ -3,31 +3,48 @@ CCFLAGS = -Wall -Wextra -pedantic -O3
 
 PREFIX = 
 
-all: bin/echo bin/cat bin/false\
-     bin/seq  bin/tee bin/true
+.PHONY: all
+all: bin echo cat false seq tee true mkdir
 
 bin:
 	mkdir bin
 
-bin/cat: cat/cat.c bin
-	$(CC) $(CCFLAGS) -o $@ $<
+.PHONY: echo
+echo: bin/echo
+bin/echo: echo/echo.c
+	cd echo && make && cp echo ../bin/
 
-bin/echo: echo/echo.c bin
-	$(CC) $(CCFLAGS) -o $@ $<
+.PHONY: cat
+cat: bin/cat
+bin/cat: cat/cat.c
+	cd cat && make && cp cat ../bin/
 
-bin/false: false/false.c bin
-	$(CC) $(CCFLAGS) -o $@ $<
+.PHONY: false
+false: bin/false
+bin/false: false/false.c
+	cd false && make && cp false ../bin/
 
-bin/seq: seq/seq.c bin
-	$(CC) $(CCFLAGS) -o $@ $<
+.PHONY: seq
+seq: bin/seq
+bin/seq: seq/seq.c
+	cd seq && make && cp seq ../bin/
 
-bin/tee: tee/tee.c bin
-	$(CC) $(CCFLAGS) -o $@ $<
+.PHONY: tee
+tee: bin/tee
+bin/tee: tee/tee.c
+	cd tee && make && cp tee ../bin/
 
-bin/true: true/true.c bin
-	$(CC) $(CCFLAGS) -o $@ $<
+.PHONY: true
+true: bin/true
+bin/true: true/true.c
+	cd true && make && cp true ../bin/
 
-install: $(BINARY)
+.PHONY: mkdir
+mkdir: bin/mkdir
+bin/mkdir: mkdir/mkdir.c
+	cd mkdir && make && cp mkdir ../bin/
+
+.PHONY: install
+install: all
 	cp bin/* $(PREFIX)/bin/
 
-.PHONY: all install
