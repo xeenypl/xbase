@@ -1,6 +1,13 @@
 # Aplications
 bin
 bin/*
+cat/cat
+echo/echo
+false/false
+mkdir/mkdir
+seq/sqe
+tee/tee
+true/true
 
 # Prerequisites
 *.d
