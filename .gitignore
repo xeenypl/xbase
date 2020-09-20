@@ -5,7 +5,7 @@ cat/cat
 echo/echo
 false/false
 mkdir/mkdir
-seq/sqe
+seq/seq
 tee/tee
 true/true
 
