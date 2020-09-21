@@ -8,6 +8,7 @@ mkdir/mkdir
 seq/seq
 tee/tee
 true/true
+mv/mv
 
 # Prerequisites
 *.d
