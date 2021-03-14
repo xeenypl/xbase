@@ -8,10 +8,10 @@ static bool flag_s = false;
 static bool flag_e = false;
 
 static void using(void);
-static char parseHexDigit(char c);
-static char parseHex(const char* str);
-static void printEscape(const char*);
-static void printNoEscape(const char*);
+static char parse_hex_digit(char c);
+static char parse_hex(const char* str);
+static void print_escape(const char*);
+static void print_no_escape(const char*);
 
 static void using(void) {
     fputs(
@@ -22,7 +22,7 @@ static void using(void) {
     exit(EXIT_FAILURE);
 }
 
-static char parseHexDigit(char c) {
+static char parse_hex_digit(char c) {
     if ('0' <= c && c <= '9') {
         return c - '0';
     } else if ('A' <= c && c <= 'F') {
@@ -33,15 +33,15 @@ static char parseHexDigit(char c) {
     return 0;
 }
 
-static char parseHex(const char* str) {
+static char parse_hex(const char* str) {
     char res = 0;
-    res = res | parseHexDigit(*str);
+    res = res | parse_hex_digit(*str);
     res = res << 4;
-    res = res | parseHexDigit(*(str + 1));
+    res = res | parse_hex_digit(*(str + 1));
     return res;
 }
 
-static void printEscape(const char* msg) {
+static void print_escape(const char* msg) {
     for (int i = 0; msg[i] != 0; i++) {
         if (msg[i] == '\\') {
             switch (msg[++i]) {
@@ -58,7 +58,7 @@ static void printEscape(const char* msg) {
                 exit(EXIT_SUCCESS);
                 break;
             case 'e':
-                putchar(33);
+                putchar(0x1b);
                 break;
             case 'f':
                 putchar('\f');
@@ -76,7 +76,7 @@ static void printEscape(const char* msg) {
                 putchar('\v');
                 break;
             case 'x':
-                putchar(parseHex(msg + (++i)));
+                putchar(parse_hex(msg + (++i)));
                 i++;
                 break;
             }
@@ -86,7 +86,7 @@ static void printEscape(const char* msg) {
     }
 }
 
-static void printNoEscape(const char* msg) {
+static void print_no_escape(const char* msg) {
     for (int i = 0; msg[i] != 0; i++) {
         putchar(msg[i]);
     }
@@ -117,9 +117,9 @@ int main(int argc, char** argv) {
     argv += optind;
     for (int i = 0; i < argc; i++) {
         if (flag_e == false) {
-            printNoEscape(argv[i]);
+            print_no_escape(argv[i]);
         } else {
-            printEscape(argv[i]);
+            print_escape(argv[i]);
         }
         if (flag_s == false) {
             putchar(' ');
