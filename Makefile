@@ -1,6 +1,6 @@
 CCFLAGS=-Wall -Wextra -pedantic -O3
 PREFIX= 
-ALL = true cat echo false mkdir mv seq tee sync pwd cp sleep
+ALL = true cat echo false mkdir mv seq tee sync pwd cp sleep rm
 
 .PHONY: all
 all: $(ALL)
@@ -100,3 +100,10 @@ sleep: sleep.c
 .PHONY: install-sleep
 install-sleep: sleep
 	sleep sleep $(PREFIX)/bin
+
+rm: rm.c
+	$(CC) $(CCFLAGS) -o $@ $<
+
+.PHONY: install-rm
+install-rm: rm
+	rm rm $(PREFIX)/bin
