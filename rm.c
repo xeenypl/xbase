@@ -19,11 +19,12 @@ static struct option opts[] = {
    {"verbose",      no_argument, 0, 'v' },
    {"interactive",  no_argument, 0, 'i' },
    {"dir",          no_argument, 0, 'd' },
+   {"force",        no_argument, 0, 'f' },
    {0,              0,           0, 0   }
 };
 
 static void using(void) {
-    fprintf(stderr, "using:\n\t%s [-hifrRv] <file...>\n", progname);
+    fprintf(stderr, "using:\n\t%s [-hifrRdv] <file...>\n", progname);
     exit(1);
 }
 
@@ -43,7 +44,7 @@ static bool prmmpt(const char* path) {
 
 static void rm(const char* path) {
     if (is_directory(path)) {
-        if (!flag_i || prmmpt(path)) {
+        if (!flag_i || flag_f || prmmpt(path)) {
             if (flag_r) {
                 struct dirent *d;
                 DIR *dir = opendir(path);
@@ -57,6 +58,7 @@ static void rm(const char* path) {
                         strcmp(d -> d_name, "..") == 0)
                         continue;
                     char path_next[path_len + strlen(d -> d_name) + 2];
+                    // TODO strcat is slow.
                     strcpy(path_next, path);
                     strcat(path_next, "/");
                     strcat(path_next, d->d_name);
@@ -75,7 +77,7 @@ static void rm(const char* path) {
             }
         }
     } else {
-        if (!flag_i || prmmpt(path)) {
+        if (!flag_i || flag_f || prmmpt(path)) {
             if (remove(path) < 0) {
                 perror("remove");
                 exit(1);
@@ -86,10 +88,10 @@ static void rm(const char* path) {
         printf("removed: %s\n", path);
 }
 
-int main (int argc, char* argv[]) {
+int main(int argc, char* argv[]) {
     progname = argv[0];
     char ch;
-    while ((ch = getopt_long(argc, argv, "hifrRv", opts, NULL)) != -1) {
+    while ((ch = getopt_long(argc, argv, "hifrRdv", opts, NULL)) != -1) {
         switch(ch) {
         case 'i':
             flag_i = true;
